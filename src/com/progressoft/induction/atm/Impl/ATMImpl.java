@@ -20,9 +20,13 @@ public class ATMImpl implements ATM {
     private int tenJODCount = 100;
     private int fiveJODCount = 100;
 
-    private final BankingSystemImpl bankingSystem=new BankingSystemImpl();
-    @Override
-    public List<Banknote> withdraw(String accountNumber, BigDecimal amount) {
+    private BankingSystemImpl bankingSystem=new BankingSystemImpl();
+    public ATMImpl(BankingSystem bankingSystem) {
+    	this.bankingSystem = (BankingSystemImpl) bankingSystem;
+	}
+
+//	@Override
+//    public List<Banknote> withdraw(String accountNumber, BigDecimal amount) {
         // Your code here
     	
     	
@@ -33,6 +37,7 @@ public class ATMImpl implements ATM {
         @Override
         public List<Banknote> withdraw(String accountNumber, BigDecimal amount) throws InsufficientFundsException, NotEnoughMoneyInATMException {
             BigDecimal accountBalance = bankingSystem.getAccountBalance(accountNumber);
+            
             if (amount.compareTo(accountBalance) > 0) {
                 throw new InsufficientFundsException("Account does not have enough funds");
             }
@@ -92,7 +97,7 @@ public class ATMImpl implements ATM {
             return banknotes;
         }
        
-    }
+//    }
 
     @Override
     public BigDecimal checkBalance(String accountNumber) {

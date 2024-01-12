@@ -27,18 +27,27 @@ public class BankingSystemImpl implements BankingSystem {
 
     public BigDecimal sumOfMoneyInAtm(){
         // Your code
-        return null;
+    	   BigDecimal sum = BigDecimal.ZERO;
+           for (Map.Entry<Banknote, Integer> entry : atmCashMap.entrySet()) {
+               sum = sum.add(entry.getKey().getValue().multiply(BigDecimal.valueOf(entry.getValue())));
+           }
+           return sum;
     }
 
 
     @Override
     public BigDecimal getAccountBalance(String accountNumber){
         //your code
-        return null;
+    	return accountBalanceMap.getOrDefault(accountNumber, BigDecimal.ZERO);
     }
 
     @Override
     public void debitAccount(String accountNumber, BigDecimal amount) {
         //your code
+    	BigDecimal currentBalance = accountBalanceMap.getOrDefault(accountNumber, BigDecimal.ZERO);
+        if (amount.compareTo(currentBalance) > 0) {
+            throw new InsufficientFundsException("Account does not have enough funds");
+        }
+        accountBalanceMap.put(accountNumber, currentBalance.subtract(amount));
     }
 }
