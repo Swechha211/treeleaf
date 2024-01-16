@@ -18,11 +18,20 @@ public class Main {
          ATM atm = new ATMImpl(bankingSystem);
 
          //  Withdrawal operation
-         String accountNumber = "123456789"; 
-         BigDecimal withdrawalAmount = new BigDecimal("100.0"); 
+         //  to get user input
+         Scanner scanner = new Scanner(System.in);
+
+         // to get the account number from the user
+         System.out.print("Enter your account number: ");
+         String accountNumber = scanner.next();
+
+         // to get the amount to withdraw from the user
+         System.out.print("Enter the amount to withdraw: ");
+         BigDecimal withdrawalAmount = BigDecimal.valueOf(scanner.nextDouble());
+
          try {
              List<Banknote> banknotes = atm.withdraw(accountNumber, withdrawalAmount);
-             System.out.println("Withdrawal successful. Dispensed banknotes: " + banknotes);
+             System.out.println("Withdrawal successful. " );
          } catch (InsufficientFundsException e) {
              System.out.println("Insufficient funds in the account.");
          } catch (NotEnoughMoneyInATMException e) {
@@ -32,7 +41,7 @@ public class Main {
          }
          
          // Example: Check Balance operation
-         String checkBalanceAccountNumber = "123456789"; // Replace with the account number to check balance
+         String checkBalanceAccountNumber = accountNumber; // Replace with the account number to check balance
 
          BigDecimal balance = atm.checkBalance(checkBalanceAccountNumber);
          System.out.println("Account balance: " + balance);
